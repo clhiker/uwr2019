@@ -2,6 +2,7 @@ package core.generator;
 import core.common.*;
 import org.easymock.EasyMock;
 import org.easymock.IAnswer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -73,5 +74,9 @@ public class TestTemplateProcessor implements DataSourceType{
 		PowerMock.replayAll(dsc);
 		//初始化一个待测试类（SUT）的实例
 		tp = new TemplateProcessor();
+	}
+	@After
+	public void setDsc() throws Exception {
+
 	}
 }
