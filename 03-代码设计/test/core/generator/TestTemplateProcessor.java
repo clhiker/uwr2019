@@ -78,7 +78,6 @@
 
 
 
-
 package core.generator;
 
 import core.common.*;
@@ -146,6 +145,7 @@ public class TestTemplateProcessor implements DataSourceType{
 		EasyMock.expect(ds.getDataHolder("sex")).andStubReturn(dh1);
 		EasyMock.expect(ds.getDataHolder("readme")).andStubReturn(dh2);
 		EasyMock.expect(ds.getDataHolder("testexpr")).andStubReturn(dh3);
+		EasyMock.expect(ds.getType()).andStubReturn("");
 
 		ArrayList<DataSource> dss = new ArrayList<DataSource>();
 		dss.add(ds);
@@ -158,18 +158,6 @@ public class TestTemplateProcessor implements DataSourceType{
 		PowerMock.mockStatic(DataSourceConfig.class);
 		EasyMock.expect(DataSourceConfig.newInstance()).andStubReturn(dsc);
 
-
-//		PowerMock.expectNew(DataSourceConfig.newInstance().getClass()).andStubReturn(dsc);
-//		PowerMockito.when(DataSourceConfig.newInstance());
-//		dsc = DataSourceConfig.newInstance();
-//		PowerMock.stub(PowerMock.method(DataSourceConfig.class, "newInstance")).toReturn(dsc);
-//		PowerMock.expectNiceNew(DataSourceConfig.newInstance());
-//		dsc = DataSourceConfig.newInstance();
-//		EasyMock.expect(dsc.getConstDataSource().getDataHolder("sex").getValue()).andStubReturn("Female");
-//		EasyMock.expect(dsc.gepowtDataHolder("readme").getValue()).andStubReturn("5");
-//		EasyMock.expect(dsc.getDataHolder("testexpr").getValue()).andStubReturn("5.0");
-
-		//
 		//------------------------------------------------
 		//5. 重放所有的行为。
 		PowerMock.replayAll(dsc);
