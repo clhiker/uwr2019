@@ -80,10 +80,8 @@
 
 
 package core.generator;
-import core.common.DataHolder;
-import core.common.DataSource;
-import core.common.DataSourceConfig;
-import core.common.DataSourceType;
+
+import core.common.*;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -125,27 +123,51 @@ public class TestTemplateProcessor implements DataSourceType{
 		// 这里写代码
 		//设置待测试类的状态（测试目标方法）
 		dsc = EasyMock.createMock(DataSourceConfig.class);
+		DataHolder dh1 = EasyMock.createMock(DataHolder.class);
+//		dh1.setName("sex");
+		EasyMock.expect(dh1.getValue()).andStubReturn("Female");
+		DataHolder dh2 = EasyMock.createMock(DataHolder.class);
+//		dh2.setName("readme");
+		EasyMock.expect(dh2.getValue()).andStubReturn("5");
+		DataHolder dh3 = EasyMock.createMock(DataHolder.class);
+//		dh3.setName("testexpr");
+		EasyMock.expect(dh3.getValue()).andStubReturn("5.0");
+		EasyMock.expect(dh3.getExpr()).andStubReturn("${num}+${readme}");
+		EasyMock.expect(dh3.fillValue()).andStubReturn(null);
+
+		ArrayList<DataHolder> vars = new ArrayList<DataHolder>();
+		vars.add(dh1);
+		vars.add(dh2);
+		vars.add(dh3);
+
+		ConstDataSource ds = EasyMock.createMock(ConstDataSource.class);
+		ds.setVars(vars);
+		EasyMock.expect(ds.getVars()).andStubReturn(vars);
+		EasyMock.expect(ds.getDataHolder("sex")).andStubReturn(dh1);
+		EasyMock.expect(ds.getDataHolder("readme")).andStubReturn(dh2);
+		EasyMock.expect(ds.getDataHolder("testexpr")).andStubReturn(dh3);
+
 		ArrayList<DataSource> dss = new ArrayList<DataSource>();
-		dsc.setDataSources(dss);
-		EasyMock.expect(dsc.getDataSources()).andReturn(dss);
-		dsc.setFilename("test");
-		EasyMock.expect(dsc.getFilename()).andReturn("test");
-		EasyMock.expect(dsc.getConstDataSource()).andReturn(null);
-		EasyMock.expect(dsc.getDataSource(null)).andReturn(null);
+		dss.add(ds);
+		EasyMock.expect(dsc.getDataSources()).andStubReturn(dss);
+		EasyMock.expect(dsc.getFilename()).andStubReturn("test");
+		EasyMock.expect(dsc.getConstDataSource()).andStubReturn(ds);
+		EasyMock.expect(dsc.getDataSource(null)).andStubReturn(ds);
 
+		EasyMock.replay( ds, dh1, dh2, dh3);
 		PowerMock.mockStatic(DataSourceConfig.class);
-		EasyMock.expect(DataSourceConfig.newInstance()).andReturn(dsc);
+		EasyMock.expect(DataSourceConfig.newInstance()).andStubReturn(dsc);
 
 
-//		PowerMock.expectNew(DataSourceConfig.newInstance().getClass()).andReturn(dsc);
+//		PowerMock.expectNew(DataSourceConfig.newInstance().getClass()).andStubReturn(dsc);
 //		PowerMockito.when(DataSourceConfig.newInstance());
 //		dsc = DataSourceConfig.newInstance();
 //		PowerMock.stub(PowerMock.method(DataSourceConfig.class, "newInstance")).toReturn(dsc);
 //		PowerMock.expectNiceNew(DataSourceConfig.newInstance());
 //		dsc = DataSourceConfig.newInstance();
-//		EasyMock.expect(dsc.getConstDataSource().getDataHolder("sex").getValue()).andReturn("Female");
-//		EasyMock.expect(dsc.gepowtDataHolder("readme").getValue()).andReturn("5");
-//		EasyMock.expect(dsc.getDataHolder("testexpr").getValue()).andReturn("5.0");
+//		EasyMock.expect(dsc.getConstDataSource().getDataHolder("sex").getValue()).andStubReturn("Female");
+//		EasyMock.expect(dsc.gepowtDataHolder("readme").getValue()).andStubReturn("5");
+//		EasyMock.expect(dsc.getDataHolder("testexpr").getValue()).andStubReturn("5.0");
 
 		//
 		//------------------------------------------------
@@ -181,14 +203,4 @@ public class TestTemplateProcessor implements DataSourceType{
 		//检测SUT的实际行为模式是否符合预期
 		PowerMock.verifyAll();
 	}
-
-//	@Test
-//	public void myTest(){
-//		dsc = DataSourceConfig.newInstance();
-//		DataSource ds = dsc.getConstDataSource();
-//		DataHolder dh = ds.getDataHolder("sex");
-//		System.out.println(dh.getValue());
-//
-//	}
-
 }
