@@ -149,6 +149,10 @@ public class TestTemplateProcessor implements DataSourceType{
 
 		ArrayList<DataSource> dss = new ArrayList<DataSource>();
 		dss.add(ds);
+
+//		dsc.setFilename("");
+//		EasyMock.expectLastCall().andReturn(false);
+//		dsc.setDataSources(dss);
 		EasyMock.expect(dsc.getDataSources()).andStubReturn(dss);
 		EasyMock.expect(dsc.getFilename()).andStubReturn("test");
 		EasyMock.expect(dsc.getConstDataSource()).andStubReturn(ds);
