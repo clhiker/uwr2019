@@ -124,15 +124,15 @@ public class TestTemplateProcessor implements DataSourceType{
 		dsc = EasyMock.createMock(DataSourceConfig.class);
 		DataHolder dh1 = EasyMock.createMock(DataHolder.class);
 //		dh1.setName("sex");
-		EasyMock.expect(dh1.getValue()).andStubReturn("Female");
+		EasyMock.expect(dh1.getValue()).andReturn("Female");
 		DataHolder dh2 = EasyMock.createMock(DataHolder.class);
 //		dh2.setName("readme");
-		EasyMock.expect(dh2.getValue()).andStubReturn("5");
+		EasyMock.expect(dh2.getValue()).andReturn("5");
 		DataHolder dh3 = EasyMock.createMock(DataHolder.class);
 //		dh3.setName("testexpr");
-		EasyMock.expect(dh3.getValue()).andStubReturn("5.0");
-		EasyMock.expect(dh3.getExpr()).andStubReturn("${num}+${readme}");
-		EasyMock.expect(dh3.fillValue()).andStubReturn(null);
+		EasyMock.expect(dh3.getValue()).andReturn("5.0");
+		EasyMock.expect(dh3.getExpr()).andReturn("${num}+${readme}");
+		EasyMock.expect(dh3.fillValue()).andReturn(null);
 
 		ArrayList<DataHolder> vars = new ArrayList<DataHolder>();
 		vars.add(dh1);
@@ -142,9 +142,9 @@ public class TestTemplateProcessor implements DataSourceType{
 		ConstDataSource ds = EasyMock.createMock(ConstDataSource.class);
 		ds.setVars(vars);
 		EasyMock.expect(ds.getVars()).andStubReturn(vars);
-		EasyMock.expect(ds.getDataHolder("sex")).andStubReturn(dh1);
-		EasyMock.expect(ds.getDataHolder("readme")).andStubReturn(dh2);
-		EasyMock.expect(ds.getDataHolder("testexpr")).andStubReturn(dh3);
+		EasyMock.expect(ds.getDataHolder("sex")).andReturn(dh1);
+		EasyMock.expect(ds.getDataHolder("readme")).andReturn(dh2);
+		EasyMock.expect(ds.getDataHolder("testexpr")).andReturn(dh3);
 		EasyMock.expect(ds.getType()).andStubReturn("");
 
 		ArrayList<DataSource> dss = new ArrayList<DataSource>();
